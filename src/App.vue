@@ -3,6 +3,7 @@ import { ref, reactive } from "vue";
 import Alert from "./components/Alert.vue";
 import Spinner from "./components/Spinner.vue";
 import useCrypto from "./composables/useCrypto";
+import Quotation from "./components/Quotation.vue";
 
 const {
   currencies,
@@ -60,32 +61,7 @@ const quoteCrypto = () => {
         <input type="submit" value="Get Quote" />
       </form>
       <Spinner v-if="loading" />
-      <div class="contenedor-resultado" v-if="showResults">
-        <h2>Quotation</h2>
-        <div class="resultado">
-          <img
-            :src="'https://cryptocompare.com/' + quotation.IMAGEURL"
-            alt="image crypto"
-          />
-          <div>
-            <p>
-              The Price is: <span>{{ quotation.PRICE }}</span>
-            </p>
-            <p>
-              Daily High: <span>{{ quotation.HIGHDAY }}</span>
-            </p>
-            <p>
-              Daily Low: <span>{{ quotation.LOWDAY }}</span>
-            </p>
-            <p>
-              24-hour Change: <span>{{ quotation.CHANGEPCT24HOUR }}%</span>
-            </p>
-            <p>
-              Last Update: <span>{{ quotation.LASTUPDATE }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
+      <Quotation v-if="showResults" :quotation="quotation" />
     </div>
   </div>
 </template>
