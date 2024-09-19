@@ -1,5 +1,15 @@
-# Vue 3 + Vite
+# Cryptocurrency Price Quoter
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A Vue.js project for quoting cryptocurrency prices, where users can select a currency (USD, GBP, MXN, or EUR) and a cryptocurrency (from the Toplist by Market Cap). The data for both the Toplist by Market Cap and the cryptocurrency price in the selected currency comes from the CryptoCompare API.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Features
+
+- Select a **currency**: USD (Dollar), GBP (Pound), MXN (Mexican Peso), or EUR (Euro).
+- Select a **cryptocurrency**: Cryptos are fetched dynamically from the **Toplist by Market Cap**.
+- The app fetches data from the **CryptoCompare API** to display:
+  - **Current price** of the selected cryptocurrency in the selected currency.
+  - **Highest price of the day** (daily high).
+  - **Lowest price of the day** (daily low).
+  - **24-hour percentage variation** in the price.
+  - **Last update time** of the data.
+- A loading spinner from **SpinKit** is displayed while the data is being fetched.
