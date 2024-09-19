@@ -1,15 +1,17 @@
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, reactive } from "vue";
 import Alert from "./components/Alert.vue";
+import Spinner from "./components/Spinner.vue";
+import useCrypto from "./composables/useCrypto";
 
-const currencies = ref([
-  { code: "USD", text: "United States Dollar" },
-  { code: "MXN", text: "Mexican Peso" },
-  { code: "EUR", text: "Euro" },
-  { code: "GBP", text: "Pound" },
-]);
-
-const cryptoCurrencies = ref([]);
+const {
+  currencies,
+  cryptoCurrencies,
+  loading,
+  quotation,
+  getQuote,
+  showResults,
+} = useCrypto();
 
 const error = ref("");
 
@@ -24,28 +26,8 @@ const quoteCrypto = () => {
     return;
   }
   error.value = "";
-  getQuote();
+  getQuote(quote);
 };
-
-const getQuote = async () => {
-  const { currency, cryptocurrency } = quote;
-  const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cryptocurrency}&tsyms=${currency}`;
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {}
-};
-
-onMounted(() => {
-  fetch(
-    "https://min-api.cryptocompare.com/data/top/mktcapfull?limit=20&tsym=USD"
-  )
-    .then((response) => response.json())
-    .then(({ Data }) => {
-      cryptoCurrencies.value = Data;
-    });
-});
 </script>
 
 <template>
@@ -77,6 +59,33 @@ onMounted(() => {
         </div>
         <input type="submit" value="Get Quote" />
       </form>
+      <Spinner v-if="loading" />
+      <div class="contenedor-resultado" v-if="showResults">
+        <h2>Quotation</h2>
+        <div class="resultado">
+          <img
+            :src="'https://cryptocompare.com/' + quotation.IMAGEURL"
+            alt="image crypto"
+          />
+          <div>
+            <p>
+              The Price is: <span>{{ quotation.PRICE }}</span>
+            </p>
+            <p>
+              Daily High: <span>{{ quotation.HIGHDAY }}</span>
+            </p>
+            <p>
+              Daily Low: <span>{{ quotation.LOWDAY }}</span>
+            </p>
+            <p>
+              24-hour Change: <span>{{ quotation.CHANGEPCT24HOUR }}%</span>
+            </p>
+            <p>
+              Last Update: <span>{{ quotation.LASTUPDATE }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
